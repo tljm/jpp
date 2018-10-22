@@ -1,0 +1,14 @@
+
+*.pyc
+*.pyo
+*.*~
+.*.swp
+
+.idea
+
+docs_spell.geany
+
+docs/build
+src/build
+src/dist
+src/*egg*
