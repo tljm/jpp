@@ -1,4 +1,4 @@
 
 class JournalParser(object):
-    
-    
+    pass
+
