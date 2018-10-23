@@ -1,6 +1,6 @@
 from jpp.tags import istag, maketag
 from jpp.tags import Date,Verbatim
-
+from jpp import html
 
 class JournalParser(object):
     
@@ -12,12 +12,18 @@ class JournalParser(object):
     def __del__(self):
         self.finalize()
     
-    def print(self):
+    def printable(self,tag=None):
         return True
         
     def open_tag(self,tag):
+        if self.printable(tag):
+            print(html.tag_opener(tag))
+            if isinstance(tag,Date):
+                print(html.tag_date(tag))
+            else:
+                print(html.tag_multi(tag))
+            #print("OPEN: %s" % tag)
         self.open_tags.append(tag)
-        print("OPEN: %s" % tag)
         
     def close_tag(self,tag):
         closed = []
@@ -30,8 +36,10 @@ class JournalParser(object):
                     if isinstance(closed[-1],Date):
                         break
         if closed:
-            for c in closed:
-                print("CLOSED: %s" % c)
+            for tag in closed:
+                if self.printable(tag):
+                    print(html.tag_closer(tag))
+                    #print("CLOSE: %s" % tag)
         
     def proceed(self,source):
         """
@@ -39,11 +47,10 @@ class JournalParser(object):
         """
         for line in source:
             line = line.rstrip()
-            if not istag(line) and self.print():
+            if not istag(line) and self.printable():
                 if self.metastable_tag:
                     self.open_tag(self.metastable_tag)
                     self.metastable_tag = None
-                    print(self.open_tags)
                     
                 print(line)
             else:
@@ -61,7 +68,7 @@ class JournalParser(object):
                         self.metastable_tag.append(this_tag)
     
     def finalize(self):
-        for c in self.open_tags[::-1]:
-            print("CLOSED: %s" % c)
+        for tag in self.open_tags[::-1]:
+            self.close_tag(tag)
             
                 
