@@ -12,6 +12,10 @@ class Tag(object):
         
     def __str__(self):
         return "%s(%s)" % (self.__class__.__name__, str(self.value))
+
+    def __repr__(self):
+        return self.__str__()
+        
         
     def __eq__(self,other):
         return self.value == other.value
