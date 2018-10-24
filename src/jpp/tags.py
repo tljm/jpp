@@ -9,6 +9,7 @@ class Tag(object):
         :param value: Value of tag.
         """
         self.value = value
+        self.body = None
         
     def __str__(self):
         return "%s(%s)" % (self.__class__.__name__, str(self.value))

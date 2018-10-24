@@ -43,7 +43,7 @@ class TestTags(TestCase):
             for value in self.values:
                 this_tag = tag(value)
                 self.assertEqual(value, this_tag.value)
-                #self.assertEqual(None, this_tag.body)
+                self.assertEqual(None, this_tag.body)
                 
 class TestMulti(TestCase):
     
