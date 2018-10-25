@@ -1,8 +1,20 @@
 from jpp.tags import istag, maketag
-from jpp.tags import Tag,Date,Verbatim,NoTag
+from jpp.tags import Tag,Date,Verbatim,NoTag,Multi
 from jpp.render import HTML
 
-class JournalParser(object):
+class Filters(object):
+    
+    def is_tag_printable(self,tag):
+        return True
+
+    def is_line_printable(self,line):
+        return True
+
+################################################################################
+# Parser
+################################################################################
+
+class JournalParser(Filters):
     
     def __init__(self):
         
@@ -15,10 +27,11 @@ class JournalParser(object):
         self.finalize()
     
     def printable(self,tag=None):
-        return True
+        return self.is_tag_printable(tag)
     
     def print(self,line):
-        self.open_tags[-1].print(line)
+        if self.is_line_printable(line):
+            self.open_tags[-1].print(line)
         
     def open_tag(self,tag):
         self.open_tags.append(tag)
@@ -32,13 +45,15 @@ class JournalParser(object):
         if self.open_tags:
             if isinstance(tag,type(self.open_tags[-1])):
                 closed_tag = self.open_tags.pop(-1)
-                self.print(closed_tag)
-                self.print(self.engine.tag_closer(closed_tag))
+                if self.printable(closed_tag):
+                    self.print(closed_tag)
+                    self.print(self.engine.tag_closer(closed_tag))
             elif isinstance(tag,Date) and Date in list(map(type,self.open_tags)):
                 while True:
                     closed_tag = self.open_tags.pop(-1)
-                    self.print(closed_tag)
-                    self.print(self.engine.tag_closer(closed_tag))
+                    if self.printable(closed_tag):
+                        self.print(closed_tag)
+                        self.print(self.engine.tag_closer(closed_tag))
                     #if isinstance(closed[-1],Date):
                     if isinstance(closed_tag,Date):
                         break
@@ -83,12 +98,15 @@ class JournalParser(object):
     def finalize(self):
         for tag in self.open_tags[:0:-1]:
             self.close_tag(tag)
-        self.final_printout(self.open_tags.pop())
+        if self.open_tags:
+            self.final_printout(self.open_tags.pop())
     
     def final_printout(self,tag):
+        #print(tag)
         for line in tag.body:
             if isinstance(line,Tag):
                 self.final_printout(line)
             else:
                 print(line)
+
 
