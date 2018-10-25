@@ -1,7 +1,7 @@
 from unittest import main, TestCase
 
 from jpp.tags import istag, maketag
-from jpp.tags import Tag, Date, Verbatim, Multi
+from jpp.tags import Tag, Date, Verbatim, Multi, NoTag
 
 class TestHelpers(TestCase):
     
@@ -32,7 +32,7 @@ class TestHelpers(TestCase):
 class TestTags(TestCase):
 
     def setUp(self):
-        self.tags = (Tag, Date, Verbatim, Multi)
+        self.tags = (Tag, NoTag, Date, Verbatim, Multi)
         self.values = (1, 'abc', None)
 
     def test_init(self):
@@ -43,7 +43,7 @@ class TestTags(TestCase):
             for value in self.values:
                 this_tag = tag(value)
                 self.assertEqual(value, this_tag.value)
-                self.assertEqual(None, this_tag.body)
+                self.assertEqual([], this_tag.body)
                 
 class TestMulti(TestCase):
     

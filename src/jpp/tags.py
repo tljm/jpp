@@ -9,7 +9,7 @@ class Tag(object):
         :param value: Value of tag.
         """
         self.value = value
-        self.body = None
+        self.body = []
         
     def __str__(self):
         return "%s(%s)" % (self.__class__.__name__, str(self.value))
@@ -20,6 +20,20 @@ class Tag(object):
         
     def __eq__(self,other):
         return self.value == other.value
+        
+    def print(self,line):
+        return self.body.append(line)
+
+class NoTag(Tag):
+    """
+    No tag.
+    """
+    def __init__(self,dummy=None):
+        """
+        :param str dummy: Value of no tag.
+        """
+        super().__init__(dummy)
+    
 
 class Date(Tag):
     """

@@ -1,12 +1,12 @@
 from jpp.tags import istag, maketag
-from jpp.tags import Date,Verbatim
+from jpp.tags import Tag,Date,Verbatim,NoTag
 from jpp.render import HTML
 
 class JournalParser(object):
     
     def __init__(self):
         
-        self.open_tags = []
+        self.open_tags = [NoTag()]
         self.metastable_tag = None
         
         self.engine = HTML()
@@ -18,28 +18,36 @@ class JournalParser(object):
         return True
     
     def print(self,line):
-        print(line)
+        self.open_tags[-1].print(line)
+        #print(line)
         
     def open_tag(self,tag):
+        self.open_tags.append(tag)
         # print tag opening if current state is printable
         if self.printable(tag):
             self.print(self.engine.tag_opener(tag))
             self.print(self.engine.tag(tag))
             #self.print("OPEN: %s" % tag)
-        self.open_tags.append(tag)
         
     def close_tag(self,tag):
         # check is tag closes last tag(s)
-        closed = []
+        #closed = []
         if self.open_tags:
             if isinstance(tag,type(self.open_tags[-1])):
-                closed.append(self.open_tags.pop(-1))
+                #closed.append(self.open_tags.pop(-1))
+                closed_tag = self.open_tags.pop(-1)
+                self.print(closed_tag)
+                self.print(self.engine.tag_closer(closed_tag))
             elif isinstance(tag,Date) and Date in list(map(type,self.open_tags)):
                 while True:
-                    closed.append(self.open_tags.pop(-1))
-                    if isinstance(closed[-1],Date):
+                    #closed.append(self.open_tags.pop(-1))
+                    closed_tag = self.open_tags.pop(-1)
+                    self.print(closed_tag)
+                    self.print(self.engine.tag_closer(closed_tag))
+                    #if isinstance(closed[-1],Date):
+                    if isinstance(closed_tag,Date):
                         break
-        if closed:
+        if False:#closed:
             for tag in closed:
                 if self.printable(tag):
                     self.print(self.engine.tag_closer(tag))
@@ -83,7 +91,20 @@ class JournalParser(object):
                         self.metastable_tag.append(this_tag)
     
     def finalize(self):
-        for tag in self.open_tags[::-1]:
+        for tag in self.open_tags[:0:-1]:
             self.close_tag(tag)
+        if self.open_tags:
+            # final tag left
+            final_tag = self.open_tags.pop()
+            self.final_printout(final_tag)
+    
+    def final_printout(self,tag):
+        for line in tag.body:
+            if isinstance(line,Tag):
+                self.final_printout(line)
+            else:
+                print(line)
+
+            
             
                 
