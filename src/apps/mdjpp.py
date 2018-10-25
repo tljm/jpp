@@ -18,5 +18,5 @@ if __name__ == "__main__":
     with open(args.journal_file) as jfile:
         jp.proceed(jfile)
         
-    jp.finalize()
+    jp.finalize() # explicit call
     

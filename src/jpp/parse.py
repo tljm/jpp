@@ -19,7 +19,6 @@ class JournalParser(object):
     
     def print(self,line):
         self.open_tags[-1].print(line)
-        #print(line)
         
     def open_tag(self,tag):
         self.open_tags.append(tag)
@@ -27,31 +26,22 @@ class JournalParser(object):
         if self.printable(tag):
             self.print(self.engine.tag_opener(tag))
             self.print(self.engine.tag(tag))
-            #self.print("OPEN: %s" % tag)
         
     def close_tag(self,tag):
         # check is tag closes last tag(s)
-        #closed = []
         if self.open_tags:
             if isinstance(tag,type(self.open_tags[-1])):
-                #closed.append(self.open_tags.pop(-1))
                 closed_tag = self.open_tags.pop(-1)
                 self.print(closed_tag)
                 self.print(self.engine.tag_closer(closed_tag))
             elif isinstance(tag,Date) and Date in list(map(type,self.open_tags)):
                 while True:
-                    #closed.append(self.open_tags.pop(-1))
                     closed_tag = self.open_tags.pop(-1)
                     self.print(closed_tag)
                     self.print(self.engine.tag_closer(closed_tag))
                     #if isinstance(closed[-1],Date):
                     if isinstance(closed_tag,Date):
                         break
-        if False:#closed:
-            for tag in closed:
-                if self.printable(tag):
-                    self.print(self.engine.tag_closer(tag))
-                    #self.print("CLOSE: %s" % tag)
         
     def proceed(self,source):
         """
@@ -93,10 +83,7 @@ class JournalParser(object):
     def finalize(self):
         for tag in self.open_tags[:0:-1]:
             self.close_tag(tag)
-        if self.open_tags:
-            # final tag left
-            final_tag = self.open_tags.pop()
-            self.final_printout(final_tag)
+        self.final_printout(self.open_tags.pop())
     
     def final_printout(self,tag):
         for line in tag.body:
@@ -105,6 +92,3 @@ class JournalParser(object):
             else:
                 print(line)
 
-            
-            
-                
