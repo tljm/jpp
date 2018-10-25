@@ -10,8 +10,16 @@ from jpp.options import default_options
 
 class Filters(object):
     
-    def is_tag_printable(self,tag):
-        
+    def is_tag_printable(self):
+        if default_options.jpp_date_from or default_options.jpp_date_to:
+            date_tag = [tag for tag in self.open_tags if isinstance(tag,Date)]
+            if date_tag:
+                date_tag = date_tag[0]
+                if not default_options.jpp_date_from:
+                    return date_tag.value <= default_options.jpp_date_to
+                if not default_options.jpp_date_to:
+                    return date_tag.value >= default_options.jpp_date_from
+                return date_tag.value <= default_options.jpp_date_to and date_tag.value >= default_options.jpp_date_from
         return True
 
     def is_line_printable(self,line):
@@ -44,8 +52,8 @@ class JournalParser(Filters):
     def otag(self):
         return self.open_tags[-1]
         
-    def printable(self,tag=None):
-        return self.is_tag_printable(tag)
+    def printable(self):
+        return self.is_tag_printable()
     
     def print(self,line):
         if self.is_line_printable(line):
@@ -54,7 +62,7 @@ class JournalParser(Filters):
     def open_tag(self,tag):
         self.open_tags.append(tag)
         # print tag opening if current state is printable
-        if self.printable(tag):
+        if self.printable():
             self.print(self.engine.tag_opener(tag))
             self.print(self.engine.tag(tag))
         
@@ -63,13 +71,13 @@ class JournalParser(Filters):
         if self.open_tags:
             if isinstance(tag,type(self.otag)):
                 closed_tag = self.open_tags.pop(-1)
-                if self.printable(closed_tag):
+                if self.printable():
                     self.print(closed_tag)
                     self.print(self.engine.tag_closer(closed_tag))
             elif isinstance(tag,Date) and Date in list(map(type,self.open_tags)):
                 while True:
                     closed_tag = self.open_tags.pop(-1)
-                    if self.printable(closed_tag):
+                    if self.printable():
                         self.print(closed_tag)
                         self.print(self.engine.tag_closer(closed_tag))
                     #if isinstance(closed[-1],Date):
@@ -83,13 +91,14 @@ class JournalParser(Filters):
         for line in source:
             line = line.rstrip()
             # not a tag!
-            if not istag(line) and self.printable():
+            if not istag(line):
                 if self.metastable_tag:
                     # open metastable tag
                     self.open_tag(self.metastable_tag)
                     self.metastable_tag = None
                 # print line
-                self.print(line)
+                if self.printable():
+                    self.print(line)
             # tag!
             else:
                 this_tag = maketag(line)
