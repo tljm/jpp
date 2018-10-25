@@ -19,6 +19,13 @@ if __name__ == "__main__":
                                 action="store_true",
                                 dest=name,
                                 required=False)
+        elif name.endswith('-tag'):
+            parser.add_argument("--%s" % name,
+                                action="append",
+                                dest=name,
+                                required=False,
+                                default=list(),
+                                type=str)
         else:
             parser.add_argument("--%s" % name,
                                 action="store",

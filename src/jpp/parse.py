@@ -16,10 +16,18 @@ class Filters(object):
             if date_tag:
                 date_tag = date_tag[0]
                 if not default_options.jpp_date_from:
-                    return date_tag.value <= default_options.jpp_date_to
-                if not default_options.jpp_date_to:
-                    return date_tag.value >= default_options.jpp_date_from
-                return date_tag.value <= default_options.jpp_date_to and date_tag.value >= default_options.jpp_date_from
+                    if not date_tag.value <= default_options.jpp_date_to:
+                        return False
+                elif not default_options.jpp_date_to:
+                    if not date_tag.value >= default_options.jpp_date_from:
+                        return False
+                elif not date_tag.value <= default_options.jpp_date_to and date_tag.value >= default_options.jpp_date_from:
+                    return False
+        if default_options.jpp_skip_tag:
+            for tag in (tag for tag in self.open_tags if isinstance(tag,Multi)):
+                for tag_tag in tag.value:
+                    if tag_tag.value in default_options.jpp_skip_tag:
+                        return False
         return True
 
     def is_line_printable(self,line):
@@ -70,16 +78,18 @@ class JournalParser(Filters):
         # check is tag closes last tag(s)
         if self.open_tags:
             if isinstance(tag,type(self.otag)):
+                if self.printable():
+                    self.print(self.engine.tag_closer(self.otag))
                 closed_tag = self.open_tags.pop(-1)
                 if self.printable():
                     self.print(closed_tag)
-                    self.print(self.engine.tag_closer(closed_tag))
             elif isinstance(tag,Date) and Date in list(map(type,self.open_tags)):
                 while True:
+                    if self.printable():
+                        self.print(self.engine.tag_closer(self.otag))
                     closed_tag = self.open_tags.pop(-1)
                     if self.printable():
                         self.print(closed_tag)
-                        self.print(self.engine.tag_closer(closed_tag))
                     #if isinstance(closed[-1],Date):
                     if isinstance(closed_tag,Date):
                         break

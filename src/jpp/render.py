@@ -56,7 +56,7 @@ class HTML(Engine):
     
     @ensure_sstr
     def tag_opener(self,tag):
-        return """<div style="margin:20px;">"""
+        return """<div style="margin:20px; border:1px solid black;">"""
         
     @ensure_sstr
     def tag_closer(self,tag):
