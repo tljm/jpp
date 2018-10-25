@@ -13,8 +13,12 @@ class TagsFilters(object):
     jpp_date_from = ""
     jpp_date_to = ""
     
+    jpp_date_skip_notags = False
+    jpp_date_skip_empty = False
+    
     jpp_skip_tag = ""
-    jpp_include_tag = ""
+    jpp_only_tag = ""
+    jpp_only_global_tag = ""
 
 class JPP(TagsFilters):
     pass

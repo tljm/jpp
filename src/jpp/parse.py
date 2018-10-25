@@ -10,6 +10,17 @@ from jpp.options import default_options
 
 class Filters(object):
     
+    def skip_this_tag(self,tag):
+        if default_options.jpp_date_skip_notags and isinstance(tag,Date):
+            for line in tag.body:
+                if isinstance(line,Tag):
+                    return False
+            return True
+        if default_options.jpp_date_skip_empty and isinstance(tag,Date):
+            if len(tag.body) == 0:
+                return True
+        return False
+    
     def is_tag_printable(self):
         if default_options.jpp_date_from or default_options.jpp_date_to:
             date_tag = [tag for tag in self.open_tags if isinstance(tag,Date)]
@@ -28,6 +39,21 @@ class Filters(object):
                 for tag_tag in tag.value:
                     if tag_tag.value in default_options.jpp_skip_tag:
                         return False
+        if default_options.jpp_only_tag:
+            if len(self.open_tags) >= 2 and isinstance(self.open_tags[-2],Date) and isinstance(self.otag,Multi):
+                for tag in self.otag.value:
+                    if tag.value in default_options.jpp_only_tag:
+                        break
+                else:
+                    return False
+        if default_options.jpp_only_global_tag:
+            if len(self.open_tags) >= 2 and isinstance(self.open_tags[1],Multi):
+                for tag in self.open_tags[1].value:
+                    if tag.value in default_options.jpp_only_global_tag:
+                        break
+                else:
+                    return False
+                
         return True
 
     def is_line_printable(self,line):
@@ -139,6 +165,8 @@ class JournalParser(Filters):
             self.final_printout(self.open_tags.pop())
     
     def final_printout(self,tag):
+        if self.skip_this_tag(tag):
+            return
         #print(tag)
         for line in tag.body:
             if isinstance(line,Tag):
