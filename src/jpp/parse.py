@@ -11,6 +11,7 @@ from jpp.options import default_options
 class Filters(object):
     
     def is_tag_printable(self,tag):
+        
         return True
 
     def is_line_printable(self,line):

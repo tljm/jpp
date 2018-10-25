@@ -1,4 +1,4 @@
-import datetime as dt
+from jpp.options import makedate
 
 class Tag(object):
     """
@@ -74,7 +74,6 @@ class Multi(Tag):
             self.value.append(tag)
         elif isinstance(tag,Multi):
             self.value.extend(tag.value)
-   
 
 
 def istag(line):
@@ -94,8 +93,9 @@ def maketag(line):
     assert istag(line)
     line = line[2:]
     # is date?
-    if len([d for d in line if d in '0123456789']) == 8:
-        return Date(dt.date(int(line[:4]),int(line[4:6]),int(line[6:])))
+    date = makedate(line)
+    if date:
+        return Date(date)
     # make Multi tag
     return Multi([Verbatim(line)])
     

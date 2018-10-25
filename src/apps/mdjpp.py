@@ -33,7 +33,9 @@ if __name__ == "__main__":
     for option in (o for o in dir(default_options) if o.startswith('jpp_')):
         name = option[4:].replace("_","-")
         setattr(default_options,option,getattr(args,name))
-        
+    
+    default_options.reparse_options()
+    
     jp = JournalParser()
     with open(args.journal_file) as jfile:
         jp.proceed(jfile)
