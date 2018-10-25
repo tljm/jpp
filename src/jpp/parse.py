@@ -1,6 +1,12 @@
 from jpp.tags import istag, maketag
 from jpp.tags import Tag,Date,Verbatim,NoTag,Multi
-from jpp.render import HTML
+from jpp.render import HTML,sstr
+from jpp.options import default_options
+
+
+################################################################################
+# Filters
+################################################################################
 
 class Filters(object):
     
@@ -8,6 +14,13 @@ class Filters(object):
         return True
 
     def is_line_printable(self,line):
+        if not isinstance(line,Tag) and not isinstance(line, sstr):
+            # skip_notag_content
+            if default_options.jpp_skip_notag_content and isinstance(self.otag,NoTag):
+                return False
+            # skip_global_tag_content
+            if default_options.jpp_skip_global_tag_content and len(self.open_tags) == 2 and isinstance(self.otag,Multi):
+                return False
         return True
 
 ################################################################################
@@ -26,12 +39,16 @@ class JournalParser(Filters):
     def __del__(self):
         self.finalize()
     
+    @property
+    def otag(self):
+        return self.open_tags[-1]
+        
     def printable(self,tag=None):
         return self.is_tag_printable(tag)
     
     def print(self,line):
         if self.is_line_printable(line):
-            self.open_tags[-1].print(line)
+            self.otag.print(line)
         
     def open_tag(self,tag):
         self.open_tags.append(tag)
@@ -43,7 +60,7 @@ class JournalParser(Filters):
     def close_tag(self,tag):
         # check is tag closes last tag(s)
         if self.open_tags:
-            if isinstance(tag,type(self.open_tags[-1])):
+            if isinstance(tag,type(self.otag)):
                 closed_tag = self.open_tags.pop(-1)
                 if self.printable(closed_tag):
                     self.print(closed_tag)
