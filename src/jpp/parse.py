@@ -17,7 +17,7 @@ class Filters(object):
                     return False
             return True
         if default_options.jpp_date_skip_empty and isinstance(tag,Date):
-            if len(tag.body) == 0:
+            if len([t for t in tag.body if not isinstance(t,sstr) and str(t).strip()]) == 0:
                 return True
         return False
     
@@ -104,17 +104,21 @@ class JournalParser(Filters):
         # check is tag closes last tag(s)
         if self.open_tags:
             if isinstance(tag,type(self.otag)):
+                closed_printable = False
                 if self.printable():
                     self.print(self.engine.tag_closer(self.otag))
+                    closed_printable = True
                 closed_tag = self.open_tags.pop(-1)
-                if self.printable():
+                if self.printable() and closed_printable:
                     self.print(closed_tag)
             elif isinstance(tag,Date) and Date in list(map(type,self.open_tags)):
                 while True:
+                    closed_printable = False
                     if self.printable():
                         self.print(self.engine.tag_closer(self.otag))
+                        closed_printable = True
                     closed_tag = self.open_tags.pop(-1)
-                    if self.printable():
+                    if self.printable() and closed_printable:
                         self.print(closed_tag)
                     #if isinstance(closed[-1],Date):
                     if isinstance(closed_tag,Date):
