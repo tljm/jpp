@@ -12,3 +12,8 @@ docs/build
 src/build
 src/dist
 src/*egg*
+
+Makefile
+*.html
+*.odt
+*.pdf
