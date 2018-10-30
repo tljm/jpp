@@ -1,3 +1,6 @@
+#!/usr/bin/env python3.6
+# -*- coding: utf-8 -*-
+
 from jpp.options import default_options
 from jpp.parse import JournalParser
 
