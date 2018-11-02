@@ -5,72 +5,10 @@ from jpp.options import default_options
 
 
 ################################################################################
-# Filters
-################################################################################
-
-class Filters(object):
-    
-    def skip_this_tag(self,tag):
-        if default_options.jpp_date_skip_notags and isinstance(tag,Date):
-            for line in tag.body:
-                if isinstance(line,Tag):
-                    return False
-            return True
-        if default_options.jpp_date_skip_empty and isinstance(tag,Date):
-            if len([t for t in tag.body if not isinstance(t,sstr) and str(t).strip()]) == 0:
-                return True
-        return False
-    
-    def is_tag_printable(self):
-        if default_options.jpp_date_from or default_options.jpp_date_to:
-            date_tag = [tag for tag in self.open_tags if isinstance(tag,Date)]
-            if date_tag:
-                date_tag = date_tag[0]
-                if not default_options.jpp_date_from:
-                    if not date_tag.value <= default_options.jpp_date_to:
-                        return False
-                elif not default_options.jpp_date_to:
-                    if not date_tag.value >= default_options.jpp_date_from:
-                        return False
-                elif not date_tag.value <= default_options.jpp_date_to and date_tag.value >= default_options.jpp_date_from:
-                    return False
-        if default_options.jpp_skip_tag:
-            for tag in (tag for tag in self.open_tags if isinstance(tag,Multi)):
-                for tag_tag in tag.value:
-                    if tag_tag.value in default_options.jpp_skip_tag:
-                        return False
-        if default_options.jpp_only_tag:
-            if len(self.open_tags) >= 2 and isinstance(self.open_tags[-2],Date) and isinstance(self.otag,Multi):
-                for tag in self.otag.value:
-                    if tag.value in default_options.jpp_only_tag:
-                        break
-                else:
-                    return False
-        if default_options.jpp_only_global_tag:
-            if len(self.open_tags) >= 2 and isinstance(self.open_tags[1],Multi):
-                for tag in self.open_tags[1].value:
-                    if tag.value in default_options.jpp_only_global_tag:
-                        break
-                else:
-                    return False
-                
-        return True
-
-    def is_line_printable(self,line):
-        if not isinstance(line,Tag) and not isinstance(line, sstr):
-            # skip_notag_content
-            if default_options.jpp_skip_notag_content and isinstance(self.otag,NoTag):
-                return False
-            # skip_global_tag_content
-            if default_options.jpp_skip_global_tag_content and len(self.open_tags) == 2 and isinstance(self.otag,Multi):
-                return False
-        return True
-
-################################################################################
 # Parser
 ################################################################################
 
-class JournalParser(Filters):
+class JournalParser(object):
     
     def __init__(self):
         
@@ -87,11 +25,10 @@ class JournalParser(Filters):
         return self.open_tags[-1]
         
     def printable(self):
-        return self.is_tag_printable()
+        return True
     
     def print(self,line):
-        if self.is_line_printable(line):
-            self.otag.print(line)
+        self.otag.print(line)
         
     def open_tag(self,tag):
         self.open_tags.append(tag)
@@ -169,9 +106,6 @@ class JournalParser(Filters):
             self.final_printout(self.open_tags.pop())
     
     def final_printout(self,tag):
-        if self.skip_this_tag(tag):
-            return
-        #print(tag)
         for line in tag.body:
             if isinstance(line,Tag):
                 self.final_printout(line)
@@ -179,3 +113,76 @@ class JournalParser(Filters):
                 print(line)
 
 
+################################################################################
+# Filtered parser
+################################################################################
+
+class JournalParserFilter(JournalParser):
+
+    def printable(self):
+        return self.is_tag_printable()
+    
+    def print(self,line):
+        if self.is_line_printable(line):
+            self.otag.print(line)
+    
+    def final_printout(self,tag):
+        if self.skip_this_tag(tag):
+            return
+        return super().final_printout(tag)
+    
+    def skip_this_tag(self,tag):
+        if default_options.jpp_date_skip_notags and isinstance(tag,Date):
+            for line in tag.body:
+                if isinstance(line,Tag):
+                    return False
+            return True
+        if default_options.jpp_date_skip_empty and isinstance(tag,Date):
+            if len([t for t in tag.body if not isinstance(t,sstr) and str(t).strip()]) == 0:
+                return True
+        return False
+    
+    def is_tag_printable(self):
+        if default_options.jpp_date_from or default_options.jpp_date_to:
+            date_tag = [tag for tag in self.open_tags if isinstance(tag,Date)]
+            if date_tag:
+                date_tag = date_tag[0]
+                if not default_options.jpp_date_from:
+                    if not date_tag.value <= default_options.jpp_date_to:
+                        return False
+                elif not default_options.jpp_date_to:
+                    if not date_tag.value >= default_options.jpp_date_from:
+                        return False
+                elif not date_tag.value <= default_options.jpp_date_to and date_tag.value >= default_options.jpp_date_from:
+                    return False
+        if default_options.jpp_skip_tag:
+            for tag in (tag for tag in self.open_tags if isinstance(tag,Multi)):
+                for tag_tag in tag.value:
+                    if tag_tag.value in default_options.jpp_skip_tag:
+                        return False
+        if default_options.jpp_only_tag:
+            if len(self.open_tags) >= 2 and isinstance(self.open_tags[-2],Date) and isinstance(self.otag,Multi):
+                for tag in self.otag.value:
+                    if tag.value in default_options.jpp_only_tag:
+                        break
+                else:
+                    return False
+        if default_options.jpp_only_global_tag:
+            if len(self.open_tags) >= 2 and isinstance(self.open_tags[1],Multi):
+                for tag in self.open_tags[1].value:
+                    if tag.value in default_options.jpp_only_global_tag:
+                        break
+                else:
+                    return False
+                
+        return True
+
+    def is_line_printable(self,line):
+        if not isinstance(line,Tag) and not isinstance(line, sstr):
+            # skip_notag_content
+            if default_options.jpp_skip_notag_content and isinstance(self.otag,NoTag):
+                return False
+            # skip_global_tag_content
+            if default_options.jpp_skip_global_tag_content and len(self.open_tags) == 2 and isinstance(self.otag,Multi):
+                return False
+        return True

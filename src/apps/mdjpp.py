@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from jpp.options import default_options
-from jpp.parse import JournalParser
+from jpp.parse import JournalParserFilter
 
 if __name__ == "__main__":
 
@@ -13,8 +13,6 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=description,
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
-    parser.add_argument("-j", action="store", dest="journal_file", required=True, help="Config file filename.")
-    
     for option in (o for o in dir(default_options) if o.startswith('jpp_')):
         name = option[4:].replace("_","-")
         if isinstance(getattr(default_options,option),bool):
@@ -37,7 +35,7 @@ if __name__ == "__main__":
                                 default=getattr(default_options,option),
                                 type=type(getattr(default_options,option)))
     
-    args = parser.parse_args()
+    args,jfiles = parser.parse_known_args()
 
     # change default options
     for option in (o for o in dir(default_options) if o.startswith('jpp_')):
@@ -46,9 +44,17 @@ if __name__ == "__main__":
     
     default_options.reparse_options()
     
-    jp = JournalParser()
-    with open(args.journal_file) as jfile:
-        jp.proceed(jfile)
+    # detect index
+    for jf in jfiles:
+        if jf.endswith('index.mdj'):
+            jfiles = [jfiles.pop(jfiles.index(jf))] + jfiles
+            break
+
+    jp = JournalParserFilter()
+    
+    for jfile_name in jfiles:
+        with open(jfile_name) as jfile:
+            jp.proceed(jfile)
         
     jp.finalize() # explicit call
     
