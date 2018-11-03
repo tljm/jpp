@@ -111,8 +111,8 @@ Structure of mdJPP annotated document always has following structure:
 
 Please note two facts:
 
-1. All elements of the document's structure are optional.
-1. All mdJPP documents have always the same structure.
+#. All elements of the document's structure are optional.
+#. All mdJPP documents have always the same structure.
 
 Example
 ^^^^^^^
@@ -204,7 +204,7 @@ mdJPP can be installed with following command::
 Question & Answer
 =================
 
-1. Hey dude, why don't you put all that notes to some database and us SQL
+#. Hey dude, why don't you put all that notes to some database and us SQL
    to query DB and get what you want?
    
    That's a very good question. Well, may be, may be... 
