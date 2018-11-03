@@ -11,7 +11,7 @@ Suppose that you are obliged (or you want to) log progress of your work.
 One of the simplest way to do it is to put notes into some plain text file.
 The more you work, the more notes you write. Finally, the file can be use as a
 basis for some kind of report or even as a report itself. If you decide to use
-markup, let it be `Markdown<https://daringfireball.net/projects/markdown>`_, your notes may look quite elegant.
+markup, let it be `Markdown <https://daringfireball.net/projects/markdown>`_, your notes may look quite elegant.
 
 Imagine now, that you are *dr. No* and you work in *ACME* company as a member of
 *Y-man support team*. You did some work. Each day you put some notes and
@@ -97,16 +97,16 @@ Structure
 
 Structure of JPP annotated document always has following structure:
 
-* Plain text [optional]
-* Global normal tags that annotate all that follows [optional]
-    * Plain text [optional]
-    * Date tag [optional]
-        * Plain text [optional]
-        * Normal tag that annotate text note that follows [optional]
-            * Plain text [optional]
-        * Normal tag that annotate text note that follows [optional]
+* Plain text (optional)
+* Global normal tags that annotate all that follows (optional)
+    * Plain text (optional)
+    * Date tag (optional)
+        * Plain text (optional)
+        * Normal tag that annotate text note that follows (optional)
+            * Plain text (optional)
+        * Normal tag that annotate text note that follows (optional)
             * ...
-    * Date tag [optional]
+    * Date tag (optional)
         * ...
 
 Please note two facts:
@@ -159,10 +159,10 @@ Let's use JPP tagging for *dr. No* notes::
     **It's alive!**
 
 Usage
------
+=====
 
 Once the log is annotated with JPP tags, prepocessor can be used to produce nice
-looking document by piping output to, say, `pandoc<https://pandoc.org/>`_::
+looking document by piping output to, say, `pandoc <https://pandoc.org/>`_::
 
     mdjpp dr_no_log.mdj | pandoc > r_no_log.html
 
@@ -172,13 +172,11 @@ Filters
 ^^^^^^^
 
 **ACME** boss wants you to report progress on *X-substance* development since
- October 23rd?
-::
+ October 23rd?::
 
     mdjpp dr_no_log.mdj --only-tag X-substance --date-from 20181023
     
-Want to do more?
-::
+Want to do more?::
    
     mdjpp --help
     
@@ -194,17 +192,17 @@ logs can be kept in other files.
 Example
 ^^^^^^^
 
-So, how it looks like?
+So, how it looks like? Look at this `ugly HTML <https://tljm.github.io/jpp/test_journal.html>`_ document.
 
 Installation
-------------
+============
 
 JPP can be installed with following command::
 
     pip install jpp
     
 Question & Answer
------------------
+=================
 
 1. Hey dude, why don't you put all that notes to some database and us SQL
    to query DB and get what you want?
