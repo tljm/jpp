@@ -164,7 +164,7 @@ Usage
 Once the log is annotated with mdJPP tags, prepocessor can be used to produce nice
 looking document by piping output to, say, `pandoc <https://pandoc.org/>`_::
 
-    mdjpp dr_no_log.mdj | pandoc > r_no_log.html
+    mdjpp dr_no_log.mdj | pandoc > dr_no_log.html
 
 This is all unless you want to do some filtering.
 
