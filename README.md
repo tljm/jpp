@@ -94,7 +94,7 @@ follows is tagged with *X-substance* and *IT*.
 
 ### Structure
 
-Structure of mdJPP annotated document always has following structure:
+mdJPP annotated document **always** has following structure:
 
 * Plain text (optional)
 * Global normal tags that annotate all that follows (optional)
@@ -111,7 +111,7 @@ Structure of mdJPP annotated document always has following structure:
 Please note two facts:
 
 1. All elements of the document's structure are optional.
-1. All mdJPP documents have always the same structure.
+1. All mdJPP documents have **always** the same structure.
 
 ### Example
 
