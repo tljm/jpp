@@ -78,8 +78,8 @@ mdJPP tags, including dates, starts always with double `@` character.
 In the current version only one tag can be used in one line so there is no
 inline tags (not yet!). There are two types of tags:
 
-1. Date tags, for example `@@20181103`.
-1. (Normal) tags, for example `@@X-substance`.
+#. Date tags, for example `@@20181103`.
+#. (Normal) tags, for example `@@X-substance`.
 
 Please note, that dates are always written as YYYYMMDD.
 
