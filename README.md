@@ -201,7 +201,6 @@ pip install mdjpp
     
 ## Question & Answer
 
-1. Hey dude, why don't you put all that notes to some database and use SQL
-   to query DB and get what you want?
+1. *Hey dude, why don't you put all that notes to some database and use SQL to query DB and get what you want?*
    
    That's a very good question. Well, may be, may be... 
