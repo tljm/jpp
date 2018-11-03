@@ -1,6 +1,6 @@
 # Journal PreProcessor
 
-Journal PreProcessor - JPP - is a preporcessor for plain text documents that
+Journal PreProcessor - mdJPP - is a preporcessor for plain text documents that
 supports tagging.
 
 ## Use case
@@ -66,13 +66,13 @@ Obvious question emerges, how to get a report on *X-substance* only?
 
 ## Solution
 
-The above log can be annotated according to JPP tagging syntax. It cane be later
-submitted to JPP preprocessor that can produce document extracts according to
+The above log can be annotated according to mdJPP tagging syntax. It cane be later
+submitted to mdJPP preprocessor that can produce document extracts according to
 tags and dates.
 
 ### Syntax
 
-JPP tags, including dates, starts always with double `@` character.
+mdJPP tags, including dates, starts always with double `@` character.
 In the current version only one tag can be used in one line so there is no
 inline tags (not yet!). There are two types of tags:
 
@@ -94,7 +94,7 @@ follows is tagged with *X-substance* and *IT*.
 
 ### Structure
 
-Structure of JPP annotated document always has following structure:
+Structure of mdJPP annotated document always has following structure:
 
 * Plain text (optional)
 * Global normal tags that annotate all that follows (optional)
@@ -111,11 +111,11 @@ Structure of JPP annotated document always has following structure:
 Please note two facts:
 
 1. All elements of the document's structure are optional.
-1. All JPP documents have always the same structure.
+1. All mdJPP documents have always the same structure.
 
 ### Example
 
-Let's use JPP tagging for *dr. No* notes:
+Let's use mdJPP tagging for *dr. No* notes:
 ```
 **ACME**
 
@@ -159,7 +159,7 @@ Purification.
 
 ## Usage
 
-Once the log is annotated with JPP tags, prepocessor can be used to produce nice
+Once the log is annotated with mdJPP tags, prepocessor can be used to produce nice
 looking document by piping output to, say, [pandoc](https://pandoc.org/):
 ```
 mdjpp dr_no_log.mdj | pandoc > r_no_log.html
@@ -182,7 +182,7 @@ mdjpp --help
 
 ### Index
 
-If several files are submitted to JPP and one of them ends with `index.mdj` it
+If several files are submitted to mdJPP and one of them ends with `index.mdj` it
 is processed first.
 
 This allows to put all global tags and other titles to the index and real work
@@ -190,13 +190,13 @@ logs can be kept in other files.
 
 ### Example
 
-So, how it looks like? Look at this [ugly HTML](https://tljm.github.io/jpp/test_journal.html) document.
+So, how it looks like? Look at this [ugly HTML](https://tljm.github.io/mdjpp/test_journal.html) document.
 
 ## Installation
 
-JPP can be installed with following command:
+mdJPP can be installed with following command:
 ```
-pip install jpp
+pip install mdjpp
 ```
     
 ## Question & Answer
