@@ -171,8 +171,7 @@ This is all unless you want to do some filtering.
 Filters
 ^^^^^^^
 
-**ACME** boss wants you to report progress on *X-substance* development since
- October 23rd?::
+**ACME** boss wants you to report progress on *X-substance* development since October 23rd?::
 
     mdjpp dr_no_log.mdj --only-tag X-substance --date-from 20181023
     
@@ -204,7 +203,7 @@ mdJPP can be installed with following command::
 Question & Answer
 =================
 
-#. Hey dude, why don't you put all that notes to some database and us SQL
+#. Hey dude, why don't you put all that notes to some database and use SQL
    to query DB and get what you want?
    
    That's a very good question. Well, may be, may be... 
