@@ -162,7 +162,7 @@ Usage
 =====
 
 Once the log is annotated with mdJPP tags, prepocessor can be used to produce nice
-looking document by piping output to, say, `pandoc <https://pandoc.org/>`_::
+looking document by redirecting its output to, say, `pandoc <https://pandoc.org/>`_::
 
     mdjpp dr_no_log.mdj | pandoc > dr_no_log.html
 
