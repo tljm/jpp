@@ -190,7 +190,7 @@ logs can be kept in other files.
 
 ### Example
 
-So, how it looks like?
+So, how it looks like? Look at this [ugly HTML](https://tljm.github.io/jpp/test_journal.html) document.
 
 ## Installation
 
