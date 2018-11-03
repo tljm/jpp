@@ -15,10 +15,7 @@ markup, let it be `Markdown<https://daringfireball.net/projects/markdown>`_, you
 
 Imagine now, that you are *dr. No* and you work in *ACME* company as a member of
 *Y-man support team*. You did some work. Each day you put some notes and
-used some tags. Your work log may look following:
-
-.. code-block:: markdown
-   :linenos:
+used some tags. Your work log may look following::
 
     **ACME**
 
@@ -87,10 +84,7 @@ inline tags (not yet!). There are two types of tags:
 Please note, that dates are always written as YYYYMMDD.
 
 Normal tags can be joined. If particular note is related with *X-substance*
-development and *IT* work, it can be annotated with two tags:
-
-.. code-block:: markdown
-   :linenos:
+development and *IT* work, it can be annotated with two tags::
 
     @@X-substance
     @@IT
@@ -123,10 +117,7 @@ Please note two facts:
 Example
 ^^^^^^^
 
-Let's use JPP tagging for *dr. No* notes:
-
-.. code-block:: markdown
-   :linenos:
+Let's use JPP tagging for *dr. No* notes::
 
     **ACME**
 
@@ -171,7 +162,7 @@ Usage
 -----
 
 Once the log is annotated with JPP tags, prepocessor can be used to produce nice
-looking document by piping output to, say, `pandoc<https://pandoc.org/>`_:
+looking document by piping output to, say, `pandoc<https://pandoc.org/>`_::
 
     mdjpp dr_no_log.mdj | pandoc > r_no_log.html
 
@@ -182,16 +173,12 @@ Filters
 
 **ACME** boss wants you to report progress on *X-substance* development since
  October 23rd?
-
-.. code-block:: sh
-   :linenos:
+::
 
     mdjpp dr_no_log.mdj --only-tag X-substance --date-from 20181023
     
 Want to do more?
-
-.. code-block:: sh
-   :linenos:
+::
    
     mdjpp --help
     
@@ -212,10 +199,7 @@ So, how it looks like?
 Installation
 ------------
 
-JPP can be installed with following command:
-
-.. code-block:: sh
-   :linenos:
+JPP can be installed with following command::
 
     pip install jpp
     
