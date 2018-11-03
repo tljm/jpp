@@ -14,7 +14,7 @@ if __name__ == "__main__":
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
     for option in (o for o in dir(default_options) if o.startswith('mdjpp_')):
-        name = option[4:].replace("_","-")
+        name = option[6:].replace("_","-")
         if isinstance(getattr(default_options,option),bool):
             parser.add_argument("--%s" % name,
                                 action="store_true",
@@ -39,7 +39,7 @@ if __name__ == "__main__":
 
     # change default options
     for option in (o for o in dir(default_options) if o.startswith('mdjpp_')):
-        name = option[4:].replace("_","-")
+        name = option[6:].replace("_","-")
         setattr(default_options,option,getattr(args,name))
     
     default_options.reparse_options()

@@ -8,7 +8,7 @@ def readme():
 
 setup(name='mdjpp',
       version='.'.join(map(str,version)),
-      description='Journal preprocessor',
+      description='Journal PreProcessor',
       long_description=readme(),
       classifiers=[
         'Development Status :: 4 - Beta',
