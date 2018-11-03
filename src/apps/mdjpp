@@ -1,8 +1,8 @@
 #!/usr/bin/env python3.6
 # -*- coding: utf-8 -*-
 
-from jpp.options import default_options
-from jpp.parse import JournalParserFilter
+from mdjpp.options import default_options
+from mdjpp.parse import JournalParserFilter
 
 if __name__ == "__main__":
 
@@ -13,7 +13,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=description,
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
-    for option in (o for o in dir(default_options) if o.startswith('jpp_')):
+    for option in (o for o in dir(default_options) if o.startswith('mdjpp_')):
         name = option[4:].replace("_","-")
         if isinstance(getattr(default_options,option),bool):
             parser.add_argument("--%s" % name,
@@ -38,7 +38,7 @@ if __name__ == "__main__":
     args,jfiles = parser.parse_known_args()
 
     # change default options
-    for option in (o for o in dir(default_options) if o.startswith('jpp_')):
+    for option in (o for o in dir(default_options) if o.startswith('mdjpp_')):
         name = option[4:].replace("_","-")
         setattr(default_options,option,getattr(args,name))
     

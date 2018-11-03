@@ -1,4 +1,4 @@
-from jpp.options import makedate
+from mdjpp.options import makedate
 
 class Tag(object):
     """

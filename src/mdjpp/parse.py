@@ -1,7 +1,7 @@
-from jpp.tags import istag, maketag
-from jpp.tags import Tag,Date,Verbatim,NoTag,Multi
-from jpp.render import HTML,sstr
-from jpp.options import default_options
+from mdjpp.tags import istag, maketag
+from mdjpp.tags import Tag,Date,Verbatim,NoTag,Multi
+from mdjpp.render import HTML,sstr
+from mdjpp.options import default_options
 
 
 ################################################################################
@@ -132,45 +132,45 @@ class JournalParserFilter(JournalParser):
         return super().final_printout(tag)
     
     def skip_this_tag(self,tag):
-        if default_options.jpp_date_skip_notags and isinstance(tag,Date):
+        if default_options.mdjpp_date_skip_notags and isinstance(tag,Date):
             for line in tag.body:
                 if isinstance(line,Tag):
                     return False
             return True
-        if default_options.jpp_date_skip_empty and isinstance(tag,Date):
+        if default_options.mdjpp_date_skip_empty and isinstance(tag,Date):
             if len([t for t in tag.body if not isinstance(t,sstr) and str(t).strip()]) == 0:
                 return True
         return False
     
     def is_tag_printable(self):
-        if default_options.jpp_date_from or default_options.jpp_date_to:
+        if default_options.mdjpp_date_from or default_options.mdjpp_date_to:
             date_tag = [tag for tag in self.open_tags if isinstance(tag,Date)]
             if date_tag:
                 date_tag = date_tag[0]
-                if not default_options.jpp_date_from:
-                    if not date_tag.value <= default_options.jpp_date_to:
+                if not default_options.mdjpp_date_from:
+                    if not date_tag.value <= default_options.mdjpp_date_to:
                         return False
-                elif not default_options.jpp_date_to:
-                    if not date_tag.value >= default_options.jpp_date_from:
+                elif not default_options.mdjpp_date_to:
+                    if not date_tag.value >= default_options.mdjpp_date_from:
                         return False
-                elif not date_tag.value <= default_options.jpp_date_to and date_tag.value >= default_options.jpp_date_from:
+                elif not date_tag.value <= default_options.mdjpp_date_to and date_tag.value >= default_options.mdjpp_date_from:
                     return False
-        if default_options.jpp_skip_tag:
+        if default_options.mdjpp_skip_tag:
             for tag in (tag for tag in self.open_tags if isinstance(tag,Multi)):
                 for tag_tag in tag.value:
-                    if tag_tag.value in default_options.jpp_skip_tag:
+                    if tag_tag.value in default_options.mdjpp_skip_tag:
                         return False
-        if default_options.jpp_only_tag:
+        if default_options.mdjpp_only_tag:
             if len(self.open_tags) >= 2 and isinstance(self.open_tags[-2],Date) and isinstance(self.otag,Multi):
                 for tag in self.otag.value:
-                    if tag.value in default_options.jpp_only_tag:
+                    if tag.value in default_options.mdjpp_only_tag:
                         break
                 else:
                     return False
-        if default_options.jpp_only_global_tag:
+        if default_options.mdjpp_only_global_tag:
             if len(self.open_tags) >= 2 and isinstance(self.open_tags[1],Multi):
                 for tag in self.open_tags[1].value:
-                    if tag.value in default_options.jpp_only_global_tag:
+                    if tag.value in default_options.mdjpp_only_global_tag:
                         break
                 else:
                     return False
@@ -180,9 +180,9 @@ class JournalParserFilter(JournalParser):
     def is_line_printable(self,line):
         if not isinstance(line,Tag) and not isinstance(line, sstr):
             # skip_notag_content
-            if default_options.jpp_skip_notag_content and isinstance(self.otag,NoTag):
+            if default_options.mdjpp_skip_notag_content and isinstance(self.otag,NoTag):
                 return False
             # skip_global_tag_content
-            if default_options.jpp_skip_global_tag_content and len(self.open_tags) == 2 and isinstance(self.otag,Multi):
+            if default_options.mdjpp_skip_global_tag_content and len(self.open_tags) == 2 and isinstance(self.otag,Multi):
                 return False
         return True

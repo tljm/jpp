@@ -1,12 +1,12 @@
 from setuptools import setup
 
-from jpp import __version__ as version
+from mdjpp import __version__ as version
 
 def readme():
     with open('README.rst') as f:
         return f.read()
 
-setup(name='jpp',
+setup(name='mdjpp',
       version='.'.join(map(str,version)),
       description='Journal preprocessor',
       long_description=readme(),
@@ -17,12 +17,12 @@ setup(name='jpp',
         'Programming Language :: Python :: 3 :: Only',
         'Topic :: Text Processing :: Markup',
       ],
-      url='http://github.com/tljm/jpp',
+      url='http://github.com/tljm/mdjpp',
       author='Tomasz Magdziarz',
       author_email='tljm@wp.pl',
       test_suite='nose.collector',
       tests_require=['nose'],
-      scripts=['apps/mdjpp.py'],
+      scripts=['apps/mdjpp'],
       license='ISC',
-      packages=['jpp'],
+      packages=['mdjpp'],
       zip_safe=False)

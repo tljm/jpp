@@ -1,7 +1,7 @@
 from unittest import main, TestCase
 
-from jpp.tags import istag, maketag
-from jpp.tags import Tag, Date, Verbatim, Multi, NoTag
+from mdjpp.tags import istag, maketag
+from mdjpp.tags import Tag, Date, Verbatim, Multi, NoTag
 
 class TestHelpers(TestCase):
     

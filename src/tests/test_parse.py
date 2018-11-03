@@ -2,7 +2,7 @@ from unittest import main, TestCase
 
 from tests.resources import get
 
-from jpp.parse import JournalParser
+from mdjpp.parse import JournalParser
 
 class TestJournalParser(TestCase):
 

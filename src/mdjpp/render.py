@@ -1,7 +1,7 @@
 import hashlib
 from functools import wraps
 
-from jpp.tags import Multi, Date
+from mdjpp.tags import Multi, Date
 
 def auto_color(value):
     return hashlib.md5(value.encode('utf-8')).hexdigest()[:6]
