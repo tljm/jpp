@@ -188,21 +188,18 @@ is processed first.
 This allows to put all global tags and other titles to the index and real work
 logs can be kept in other files.
 
-Example
-^^^^^^^
+### Example
 
 So, how it looks like?
 
-Installation
-------------
+## Installation
 
 JPP can be installed with following command:
 ```
 pip install jpp
 ```
     
-Question & Answer
------------------
+## Question & Answer
 
 1. Hey dude, why don't you put all that notes to some database and us SQL
    to query DB and get what you want?
