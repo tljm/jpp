@@ -9,7 +9,7 @@ Suppose that you are obliged (or you want to) log progress of your work.
 One of the simplest way to do it is to put notes into some plain text file.
 The more you work, the more notes you write. Finally, the file can be use as a
 basis for some kind of report or even as a report itself. If you decide to use
-markup, let it be [Markdown](https://daringfireball.net/projects/markdown>), your notes may look quite elegant.
+markup, let it be [Markdown](https://daringfireball.net/projects/markdown), your notes may look quite elegant.
 
 Imagine now, that you are *dr. No* and you work in *ACME* company as a member of
 *Y-man support team*. You did some work. Each day you put some notes and
