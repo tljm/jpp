@@ -17,6 +17,9 @@ Imagine now, that you are *dr. No* and you work in *ACME* company as a member of
 *Y-man support team*. You did some work. Each day you put some notes and
 used some tags. Your work log may look following:
 
+.. code-block:: markdown
+   :linenos:
+
     **ACME**
 
     Y-man support team
@@ -86,6 +89,9 @@ Please note, that dates are always written as YYYYMMDD.
 Normal tags can be joined. If particular note is related with *X-substance*
 development and *IT* work, it can be annotated with two tags:
 
+.. code-block:: markdown
+   :linenos:
+
     @@X-substance
     @@IT
     
@@ -118,6 +124,9 @@ Example
 ^^^^^^^
 
 Let's use JPP tagging for *dr. No* notes:
+
+.. code-block:: markdown
+   :linenos:
 
     **ACME**
 
@@ -174,10 +183,16 @@ Filters
 **ACME** boss wants you to report progress on *X-substance* development since
  October 23rd?
 
+.. code-block:: sh
+   :linenos:
+
     mdjpp dr_no_log.mdj --only-tag X-substance --date-from 20181023
     
 Want to do more?
 
+.. code-block:: sh
+   :linenos:
+   
     mdjpp --help
     
 Index
@@ -199,6 +214,9 @@ Installation
 
 JPP can be installed with following command:
 
+.. code-block:: sh
+   :linenos:
+
     pip install jpp
     
 Question & Answer
@@ -208,11 +226,3 @@ Question & Answer
    to query DB and get what you want?
    
    That's a very good question. Well, may be, may be... 
-
-
-
-
-
-
-
-
