@@ -1,4 +1,0 @@
-Journal PreProcessor
---------------------
-
-JPP!
