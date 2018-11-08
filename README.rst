@@ -205,6 +205,11 @@ Here are examples of HTML documents created with `HTML rendering engine <https:/
 
 Look also at this `PDF document created with Markdown rendering engine <https://tljm.github.io/mdjpp/test_journal.pdf>`_.
 
+.. note::
+
+    The above examples are done with `pandoc <https://pandoc.org/>`_ ``--metadata="title:Your smart title"``. The title is, therefore, added at the beginning of documents.
+
+
 Installation
 ============
 
