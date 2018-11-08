@@ -40,6 +40,9 @@ class mdJPP(TagsFilters,Render):
             self.mdjpp_date_from = makedate(self.mdjpp_date_from)
         if self.mdjpp_date_to:
             self.mdjpp_date_to = makedate(self.mdjpp_date_to)
+        # render
+        if not (self.mdjpp_html or self.mdjpp_md):
+            self.mdjpp_null = True
     
 default_options = mdJPP()
 
