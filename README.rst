@@ -191,7 +191,17 @@ logs can be kept in other files.
 Example
 ^^^^^^^
 
-So, how it looks like? Look at this `ugly HTML <https://tljm.github.io/mdjpp/test_journal.html>`_ document.
+So, how it looks like? It depends on rendering options. Currently, three rendering engines
+are available:
+
+#. `Null` - This render engine does not render at all. Useful when you want to do filtering only. This is default render engine.
+#. `Markdown` - Changes global, date, and normal tags to header level 1, 2, and 3 accordingly. Uses some emphasis for tags strings. To switch it on use ``--md`` option. It is useful when you want to produce PDF or ODT documents.
+#. `HTML` - Renders global and normal tags as *nice* boxes with coloured text. Uses emphasis for date tags and uses some horizontal
+lines. To switch it on use ``--html`` option.
+
+Here are examples of HTML documents created with `HTML rendering engine <https://tljm.github.io/mdjpp/test_journal.html>`_, 
+`Markdown rendering engine <https://tljm.github.io/mdjpp/test_journal_md.html>`_.
+Look also at this `PDF document created with Markdown rendering engine <https://tljm.github.io/mdjpp/test_journal.pdf>`_.
 
 Installation
 ============
