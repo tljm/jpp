@@ -171,11 +171,13 @@ This is all unless you want to do some filtering.
 Filters
 ^^^^^^^
 
-**ACME** boss wants you to report progress on *X-substance* development since October 23rd?:
+**ACME** boss wants you to report progress on *X-substance* development since October 23rd?
+::
 
     mdjpp dr_no_log.mdj --only-tag X-substance --date-from 20181023
     
-Want to do more?:
+Want to do more?
+::
    
     mdjpp --help
     
