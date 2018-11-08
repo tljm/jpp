@@ -171,11 +171,11 @@ This is all unless you want to do some filtering.
 Filters
 ^^^^^^^
 
-**ACME** boss wants you to report progress on *X-substance* development since October 23rd?::
+**ACME** boss wants you to report progress on *X-substance* development since October 23rd?:
 
     mdjpp dr_no_log.mdj --only-tag X-substance --date-from 20181023
     
-Want to do more?::
+Want to do more?:
    
     mdjpp --help
     
@@ -199,8 +199,9 @@ are available:
 #. `HTML` - Renders global and normal tags as *nice* boxes with coloured text. Uses emphasis for date tags and uses some horizontal
 lines. To switch it on use ``--html`` option.
 
-Here are examples of HTML documents created with `HTML rendering engine <https://tljm.github.io/mdjpp/test_journal.html>`_, 
+Here are examples of HTML documents created with `HTML rendering engine <https://tljm.github.io/mdjpp/test_journal.html>`_, and with
 `Markdown rendering engine <https://tljm.github.io/mdjpp/test_journal_md.html>`_.
+
 Look also at this `PDF document created with Markdown rendering engine <https://tljm.github.io/mdjpp/test_journal.pdf>`_.
 
 Installation
