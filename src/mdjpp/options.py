@@ -20,7 +20,16 @@ class TagsFilters(object):
     mdjpp_only_tag = ""
     mdjpp_only_global_tag = ""
 
-class mdJPP(TagsFilters):
+
+class Render(object):
+    
+    mdjpp_html = False
+    mdjpp_null = True
+    mdjpp_md = False
+   
+
+
+class mdJPP(TagsFilters,Render):
     pass
     
 
@@ -31,7 +40,6 @@ class mdJPP(TagsFilters):
             self.mdjpp_date_from = makedate(self.mdjpp_date_from)
         if self.mdjpp_date_to:
             self.mdjpp_date_to = makedate(self.mdjpp_date_to)
-
     
 default_options = mdJPP()
 

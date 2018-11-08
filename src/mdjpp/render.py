@@ -1,7 +1,9 @@
 import hashlib
 from functools import wraps
+from os import linesep
 
-from mdjpp.tags import Multi, Date
+from mdjpp.tags import Multi, Date, Global
+
 
 def auto_color(value):
     return hashlib.md5(value.encode('utf-8')).hexdigest()[:6]
@@ -16,23 +18,18 @@ def ensure_sstr(gen):
     return patched
 
 
-class Engine(object):
-        
-    def hrme(self,line):
-        return """
----
-
-%s
-
----
-""" % str(line)
-
-
+class Null(object):
+    
+    null = ""    
+    tagtag = "@@"
+    
+    @ensure_sstr
     def tag_opener(self,tag):
-        raise NotImplementedError("Method not implemented")
+        return self.null
         
+    @ensure_sstr
     def tag_closer(self,tag):
-        raise NotImplementedError("Method not implemented")
+        return self.null
     
     @ensure_sstr
     def tag(self,tag):
@@ -41,19 +38,51 @@ class Engine(object):
         elif isinstance(tag,Multi):
             return self.tag_multi(tag)
     
+    @ensure_sstr
     def tag_date(self,tag):
-        raise NotImplementedError("Method not implemented")
+        return self.tagtag + '%04d%02d%02d' % (tag.value.year,tag.value.month,tag.value.day)
         
+    @ensure_sstr
     def tag_verbatim(self,tag):
-        raise NotImplementedError("Method not implemented")
+        return self.tagtag + str(tag.value)
         
+    @ensure_sstr
     def tag_multi(self,tag):
-        raise NotImplementedError("Method not implemented")
+        return linesep.join(map(self.tag_verbatim,tag.value))
+   
+
+class MD(Null):
+
+    @ensure_sstr
+    def tag(self,tag):
+        if isinstance(tag,Global):
+            return self.tag_global(tag)
+        else:
+            return super().tag(tag)
     
+    @ensure_sstr
+    def tag_date(self,tag):
+        return '## **%s**' % str(tag.value)
+        
+    @ensure_sstr
+    def tag_verbatim(self,tag):
+        return '**%s**' % str(tag.value)
+        
+    @ensure_sstr
+    def tag_multi(self,tag):
+        return "### " + '; '.join(map(self.tag_verbatim,tag.value))
+    
+    @ensure_sstr
+    def tag_global(self,tag):
+        return self.tag_multi(tag)[2:]
 
 
-class HTML(Engine):
+class HTML(Null):
     
+    @ensure_sstr
+    def hrme(self,line):
+        return '---'+linesep*2+str(line)+linesep*2+'---'
+
     @ensure_sstr
     def tag_opener(self,tag):
         return """<div style="margin:1px;">"""

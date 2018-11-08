@@ -75,6 +75,17 @@ class Multi(Tag):
         elif isinstance(tag,Multi):
             self.value.extend(tag.value)
 
+class Global(Multi):
+    """
+    Global Multiple verbatim tag.
+    """
+    def __init__(self,mtag):
+        """
+        :param class:`Multi` mtag: Input class:`Multi` tag.
+        """
+        super().__init__(mtag.value)
+        
+
 
 def istag(line):
     """

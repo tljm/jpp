@@ -1,6 +1,6 @@
 from mdjpp.tags import istag, maketag
-from mdjpp.tags import Tag,Date,Verbatim,NoTag,Multi
-from mdjpp.render import HTML,sstr
+from mdjpp.tags import Tag,Date,Verbatim,NoTag,Multi,Global
+from mdjpp.render import sstr,Null,HTML,MD
 from mdjpp.options import default_options
 
 
@@ -15,7 +15,13 @@ class JournalParser(object):
         self.open_tags = [NoTag()]
         self.metastable_tag = None
         
-        self.engine = HTML()
+        if default_options.mdjpp_null:
+            self.engine = Null()
+        elif default_options.mdjpp_md:
+            self.engine = MD()
+        elif default_options.mdjpp_html:
+            self.engine = HTML()
+            
     
     def __del__(self):
         self.finalize()
@@ -31,6 +37,9 @@ class JournalParser(object):
         self.otag.print(line)
         
     def open_tag(self,tag):
+        # is it global tag?
+        if len(self.open_tags) == 1 and isinstance(tag,Multi):
+            tag = Global(tag)
         self.open_tags.append(tag)
         # print tag opening if current state is printable
         if self.printable():
@@ -110,6 +119,8 @@ class JournalParser(object):
             if isinstance(line,Tag):
                 self.final_printout(line)
             else:
+                if isinstance(line,sstr) and len(line) == 0:
+                    continue
                 print(line)
 
 
