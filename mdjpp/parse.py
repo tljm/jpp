@@ -33,8 +33,8 @@ class JournalParser(object):
     def printable(self):
         return True
     
-    def print(self,line):
-        self.otag.print(line)
+    def printme(self,line):
+        self.otag.printme(line)
         
     def open_tag(self,tag):
         # is it global tag?
@@ -43,8 +43,8 @@ class JournalParser(object):
         self.open_tags.append(tag)
         # print tag opening if current state is printable
         if self.printable():
-            self.print(self.engine.tag_opener(tag))
-            self.print(self.engine.tag(tag))
+            self.printme(self.engine.tag_opener(tag))
+            self.printme(self.engine.tag(tag))
         
     def close_tag(self,tag):
         # check is tag closes last tag(s)
@@ -52,20 +52,20 @@ class JournalParser(object):
             if isinstance(tag,type(self.otag)):
                 closed_printable = False
                 if self.printable():
-                    self.print(self.engine.tag_closer(self.otag))
+                    self.printme(self.engine.tag_closer(self.otag))
                     closed_printable = True
                 closed_tag = self.open_tags.pop(-1)
                 if self.printable() and closed_printable:
-                    self.print(closed_tag)
+                    self.printme(closed_tag)
             elif isinstance(tag,Date) and Date in list(map(type,self.open_tags)):
                 while True:
                     closed_printable = False
                     if self.printable():
-                        self.print(self.engine.tag_closer(self.otag))
+                        self.printme(self.engine.tag_closer(self.otag))
                         closed_printable = True
                     closed_tag = self.open_tags.pop(-1)
                     if self.printable() and closed_printable:
-                        self.print(closed_tag)
+                        self.printme(closed_tag)
                     #if isinstance(closed[-1],Date):
                     if isinstance(closed_tag,Date):
                         break
@@ -84,7 +84,7 @@ class JournalParser(object):
                     self.metastable_tag = None
                 # print line
                 if self.printable():
-                    self.print(line)
+                    self.printme(line)
             # tag!
             else:
                 this_tag = maketag(line)
@@ -133,9 +133,9 @@ class JournalParserFilter(JournalParser):
     def printable(self):
         return self.is_tag_printable()
     
-    def print(self,line):
+    def printme(self,line):
         if self.is_line_printable(line):
-            self.otag.print(line)
+            self.otag.printme(line)
     
     def final_printout(self,tag):
         if self.skip_this_tag(tag):

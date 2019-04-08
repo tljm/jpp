@@ -20,7 +20,7 @@ class Tag(object):
     def __eq__(self,other):
         return self.value == other.value
         
-    def print(self,line):
+    def printme(self,line):
         return self.body.append(line)
 
 class NoTag(Tag):
@@ -75,6 +75,7 @@ class Multi(Tag):
         elif isinstance(tag,Multi):
             self.value.extend(tag.value)
 
+
 class Global(Multi):
     """
     Global Multiple verbatim tag.
@@ -94,6 +95,7 @@ def istag(line):
     :rtype: bool
     """
     return line.startswith('@@') and len(line)>2
+
 
 def maketag(line):
     """

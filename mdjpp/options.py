@@ -30,9 +30,7 @@ class Render(object):
 
 
 class mdJPP(TagsFilters,Render):
-    pass
     
-
     def reparse_options(self):
         
         # date

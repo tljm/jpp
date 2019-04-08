@@ -81,7 +81,7 @@ class HTML(Null):
     
     @ensure_sstr
     def hrme(self,line):
-        return '---'+linesep*2+str(line)+linesep*2+'---'
+        return '***'+linesep*2+str(line)+linesep*2+'***'
 
     @ensure_sstr
     def tag_opener(self,tag):
