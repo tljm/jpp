@@ -4,6 +4,12 @@ import datetime as dt
 def makedate(line):
     if len([d for d in line if d in '0123456789']) == 8:
         return dt.date(int(line[:4]),int(line[4:6]),int(line[6:]))
+        
+
+def maketime(line):
+    if len([d for d in line if d in ':0123456789']) == 5:
+        return dt.time(int(line[:2]),int(line[3::]))
+        
 
 class TagsFilters(object):
     

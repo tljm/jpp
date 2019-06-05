@@ -1,4 +1,4 @@
-from mdjpp.options import makedate
+from mdjpp.options import makedate, maketime
 
 class Tag(object):
     """
@@ -43,6 +43,16 @@ class Date(Tag):
         :param datetime.date date: Date of this tag.
         """
         super().__init__(date)
+
+class Time(Tag):
+    """
+    Time tag.
+    """
+    def __init__(self,time):
+        """
+        :param datetime.time time: Time of this tag.
+        """
+        super().__init__(time)
 
     
 class Verbatim(Tag):
@@ -100,7 +110,7 @@ def istag(line):
 def maketag(line):
     """
     :param str line: Input tag line.
-    :retrun: Tag of Data or Verbatim type.
+    :return: Tag of Data, Time, or Verbatim type.
     :rtype: Tag
     """
     assert istag(line)
@@ -109,6 +119,10 @@ def maketag(line):
     date = makedate(line)
     if date:
         return Date(date)
+    # is time?
+    time = maketime(line)
+    if time:
+        return Time(time)
     # make Multi tag
     return Multi([Verbatim(line)])
     

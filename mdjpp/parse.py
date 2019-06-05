@@ -11,8 +11,10 @@ from mdjpp.options import default_options
 class JournalParser(object):
     
     def __init__(self):
-        
+
+        # list of open tags, starts with NoTag by default
         self.open_tags = [NoTag()]
+        # last read tag that could be opened
         self.metastable_tag = None
         
         if default_options.mdjpp_null:
@@ -28,27 +30,43 @@ class JournalParser(object):
     
     @property
     def otag(self):
+        """
+        :return: Last open tag.
+        """
         return self.open_tags[-1]
         
     def printable(self):
+        # is current state printable?
         return True
     
     def printme(self,line):
+        """
+        Prints input line by submitting it to printme method of open tag.
+        """
         self.otag.printme(line)
         
     def open_tag(self,tag):
+        """
+        Opens submitted tag.
+        """
         # is it global tag?
         if len(self.open_tags) == 1 and isinstance(tag,Multi):
+            # is global if NoTag is only open tag and is of Multi type
             tag = Global(tag)
+        # adds tag to open_tag list
         self.open_tags.append(tag)
         # print tag opening if current state is printable
         if self.printable():
+            # prints tag opener
             self.printme(self.engine.tag_opener(tag))
+            # prints tag body
             self.printme(self.engine.tag(tag))
         
     def close_tag(self,tag):
-        # check is tag closes last tag(s)
+        # check if tag closes last tag(s)
+        # only if there are open tags
         if self.open_tags:
+            # if tag is of the same type as otag?
             if isinstance(tag,type(self.otag)):
                 closed_printable = False
                 if self.printable():
@@ -72,7 +90,7 @@ class JournalParser(object):
         
     def proceed(self,source):
         """
-        Proceed with source.
+        Proceeds with source, line by line.
         """
         for line in source:
             line = line.rstrip()
@@ -87,7 +105,7 @@ class JournalParser(object):
                     self.printme(line)
             # tag!
             else:
-                this_tag = maketag(line)
+                this_tag = maketag(line) # here, handle Time tags
                 # no metastable tag
                 if not self.metastable_tag:
                     # make new metastable tag
@@ -196,4 +214,9 @@ class JournalParserFilter(JournalParser):
             # skip_global_tag_content
             if default_options.mdjpp_skip_global_tag_content and len(self.open_tags) == 2 and isinstance(self.otag,Multi):
                 return False
+            # skip out of tag if only_tag is uesd
+            if isinstance(self.otag,Date):
+                if default_options.mdjpp_only_tag:
+                    return False
+
         return True
