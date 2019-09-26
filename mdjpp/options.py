@@ -25,6 +25,7 @@ class TagsFilters(object):
     mdjpp_skip_tag = ""
     mdjpp_only_tag = ""
     mdjpp_only_global_tag = ""
+    
 
 
 class Render(object):
@@ -33,9 +34,11 @@ class Render(object):
     mdjpp_null = True
     mdjpp_md = False
    
+class Time(object):
 
+    mdjpp_propagate_time = True # propagate time tags into document
 
-class mdJPP(TagsFilters,Render):
+class mdJPP(TagsFilters,Render,Time):
     
     def reparse_options(self):
         
