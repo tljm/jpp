@@ -17,11 +17,14 @@ def ensure_sstr(gen):
         return sstr(gen(*args, **kwargs))
     return patched
 
-
 class Null(object):
     
     null = ""    
     tagtag = "@@"
+    
+    @ensure_sstr
+    def tag_time(self,tag):
+        return f"[{tag.begin}-{tag.end}]"
     
     @ensure_sstr
     def tag_opener(self,tag):
