@@ -10,18 +10,43 @@ class Tag(object):
         """
         self.value = value
         self.body = []
+
+        self.begin = None
+        self.end = None
+        
+        self.isempty = True
         
     def __str__(self):
-        return "%s(%s)" % (self.__class__.__name__, str(self.value))
+        return f"{self.__class__.__name__}({str(self.value)})"
 
     def __repr__(self):
         return self.__str__()
                 
     def __eq__(self,other):
+        if not isinstance(other,Tag):
+            return False
         return self.value == other.value
+        
+    def printme_text(self,line):
+        # this is meant for non technical prints
+        if len(str(line).strip()):
+            self.end = None
+            self.isempty = False
+        self.printme(line)
         
     def printme(self,line):
         return self.body.append(line)
+        
+    def add_time(self,ttag):
+        
+        if self.begin is not None or not self.isempty:
+            self.end = ttag
+            print('end',str(self),str(ttag))
+        elif self.isempty:
+            self.begin = ttag
+            print('begin',str(self),str(ttag))
+    
+
 
 class NoTag(Tag):
     """
@@ -43,10 +68,20 @@ class Date(Tag):
         :param datetime.date date: Date of this tag.
         """
         super().__init__(date)
+        self.time_queue = []
+        
+    @property
+    def last_tag(self):
+        """
+        :return Tag: Last tag in body, if any.
+        """
+        for line in self.body[::-1]:
+            if isinstance(line,Tag):
+                return line
 
 class Time(Tag):
     """
-    Time tag.
+    Time special tag.
     """
     def __init__(self,time):
         """
@@ -122,7 +157,7 @@ def maketag(line):
     # is time?
     time = maketime(line)
     if time:
-        return Time(time)
+        return Time(line)
     # make Multi tag
     return Multi([Verbatim(line)])
     
