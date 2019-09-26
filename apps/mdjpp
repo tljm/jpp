@@ -20,6 +20,10 @@ if __name__ == "__main__":
                                 action="store_true",
                                 dest=name,
                                 required=False)
+            parser.add_argument(f"--no-{name}",
+                                action="store_false",
+                                dest=name,
+                                required=False)
         elif name.endswith('-tag'):
             parser.add_argument("--%s" % name,
                                 action="append",
