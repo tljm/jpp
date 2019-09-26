@@ -15,7 +15,7 @@ markup, let it be `Markdown <https://daringfireball.net/projects/markdown>`_, yo
 
 Imagine now, that you are *dr. No* and you work in *ACME* company as a member of
 *Y-man support team*. You did some work. Each day you put some notes and
-used some tags. Your work log may look following::
+use some tags. Your work log may look following::
 
     **ACME**
 
@@ -67,7 +67,7 @@ Obvious question emerges, how to get a report on *X-substance* only?
 Solution
 ========
 
-The above log can be annotated according to mdJPP tagging syntax. It cane be later
+The above log can be annotated according to mdJPP tagging syntax. It can be later
 submitted to mdJPP preprocessor that can produce document extracts according to
 tags and dates.
 
@@ -82,6 +82,9 @@ inline tags (not yet!). There are two types of tags:
 #. (Normal) tags, for example ``@@X-substance``.
 
 Please note, that dates are always written as YYYYMMDD.
+
+Support for additional Time tag, i.e. ``@@10:15``, is foreseen for the next
+release. Support for inline tags is not scheduled yet.
 
 Normal tags can be joined. If particular note is related with *X-substance*
 development and *IT* work, it can be annotated with two tags::
