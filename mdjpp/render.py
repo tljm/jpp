@@ -3,7 +3,7 @@ from functools import wraps
 from os import linesep
 
 from mdjpp.tags import Multi, Date, Global
-
+from mdjpp import tagtag
 
 def auto_color(value):
     return hashlib.md5(value.encode('utf-8')).hexdigest()[:6]
@@ -20,7 +20,6 @@ def ensure_sstr(gen):
 class Null(object):
     
     null = ""    
-    tagtag = "@@"
     
     @ensure_sstr
     def tag_time(self,tag):
@@ -43,11 +42,11 @@ class Null(object):
     
     @ensure_sstr
     def tag_date(self,tag):
-        return self.tagtag + '%04d%02d%02d' % (tag.value.year,tag.value.month,tag.value.day)
+        return tagtag + '%04d%02d%02d' % (tag.value.year,tag.value.month,tag.value.day)
         
     @ensure_sstr
     def tag_verbatim(self,tag):
-        return self.tagtag + str(tag.value)
+        return tagtag + str(tag.value)
         
     @ensure_sstr
     def tag_multi(self,tag):

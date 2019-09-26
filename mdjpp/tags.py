@@ -1,4 +1,5 @@
 from mdjpp.options import makedate, maketime
+from mdjpp import tagtag
 
 class Tag(object):
     """
@@ -38,14 +39,29 @@ class Tag(object):
         return self.body.append(line)
         
     def add_time(self,ttag):
-        
         if self.begin is not None or not self.isempty:
             self.end = ttag
-            print('end',str(self),str(ttag))
         elif self.isempty:
             self.begin = ttag
-            print('begin',str(self),str(ttag))
-    
+
+    def time_annotate(self):
+        """
+        Adds raw time tags annotations using begin and end fields.
+        """
+        if self.begin is not None:
+            for line in map(str.strip,map(str,self.body)):
+                if len(line):
+                    if line != self.begin.go_back():
+                        self.body = [self.begin.go_back()] + self.body
+                    break
+        if self.end is not None:
+            begin = None
+            for line in map(str.strip,map(str,self.body[::-1])):
+                if len(line):
+                    if line != self.end.go_back():
+                        self.body.append(self.end.go_back())
+                    break
+                    
 
 
 class NoTag(Tag):
@@ -88,6 +104,12 @@ class Time(Tag):
         :param datetime.time time: Time of this tag.
         """
         super().__init__(time)
+        
+    def go_back(self):
+        """
+        :return str: Gives plain text of this tag.
+        """
+        return f"{tagtag}{self.value}"
 
     
 class Verbatim(Tag):

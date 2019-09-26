@@ -119,25 +119,13 @@ class JournalParser(object):
                 # if ctag is empty and ptag is not Date and has end it can be used as begin of ctag
                 if self.ctag.isempty and self.ptag and not isinstance(self.ptag,Date) and self.ptag.end:
                     self.ctag.add_time(self.ptag.end)
-                    print('empty',self.ctag)
-                    print('  mtag',self.mtag)
-                    print('  ptag',self.ptag)
-                    print('  otag',self.otag)
-                    print('  dtag',self.dtag)
-                    print('  dtag.last',self.dtag.last_tag)
                 # last from queue might go to the previous tag if current tag is empty and has no begin
                 if not isinstance(self.ptag,Date) and self.ctag.begin is None and self.ctag.isempty and self.ptag:
                     if len(self.dtag.time_queue):
-                        print('from Q, -1')
                         self.ptag.add_time(self.dtag.time_queue[-1])
                 # last from queue goes to current tag
                 if len(self.dtag.time_queue):
-                    print('from Q, pop')
                     self.ctag.add_time(self.dtag.time_queue.pop())
-            
-        
-        
-    
         
     def printable(self):
         # is current state printable?
@@ -209,10 +197,10 @@ class JournalParser(object):
             line = line.rstrip()
             if istag(line) and isinstance(maketag(line),Time): # here, handle Time tags
                 self.time_annotate_date(maketag(line)) # annotate Date tag and queue Time tag
-                if not default_options.propagate_time:
+                if not default_options.mdjpp_time_propagate:
                     continue
             # not a tag!
-            if not istag(line):
+            if not istag(line) or isinstance(maketag(line),Time):
                 if self.metastable_tag and len(line):
                     # open metastable tag
                     self.open_tag(self.metastable_tag)
@@ -251,7 +239,8 @@ class JournalParser(object):
             self.final_printout(self.open_tags.pop())
     
     def final_printout(self,tag):
-        print(self.engine.tag_time(tag))
+        if default_options.mdjpp_time_annotate:
+            tag.time_annotate()
         for line in tag.body:
             if isinstance(line,Tag):
                 self.final_printout(line)
