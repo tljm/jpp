@@ -201,7 +201,7 @@ class JournalParser(object):
                     continue
             # not a tag!
             if not istag(line) or isinstance(maketag(line),Time):
-                if self.metastable_tag and len(line):
+                if self.metastable_tag:# and len(line):
                     # open metastable tag
                     self.open_tag(self.metastable_tag)
                     self.metastable_tag = None

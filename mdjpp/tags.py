@@ -30,13 +30,15 @@ class Tag(object):
         
     def printme_text(self,line):
         # this is meant for non technical prints
-        if len(str(line).strip()):
-            self.end = None
-            self.isempty = False
-        self.printme(line)
+        if line is not None:
+            if len(str(line).strip()):
+                self.end = None
+                self.isempty = False
+            self.printme(line)
         
     def printme(self,line):
-        return self.body.append(line)
+        if line is not None:
+            self.body.append(line)
         
     def add_time(self,ttag):
         if self.begin is not None or not self.isempty:

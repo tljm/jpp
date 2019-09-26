@@ -14,12 +14,13 @@ class sstr(str):
 def ensure_sstr(gen):
     @wraps(gen)
     def patched(*args, **kwargs):
-        return sstr(gen(*args, **kwargs))
+        obj = gen(*args, **kwargs)
+        return None if obj is None else sstr(obj)
     return patched
 
 class Null(object):
     
-    null = ""    
+    null = None
     
     @ensure_sstr
     def tag_time(self,tag):

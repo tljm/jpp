@@ -36,7 +36,7 @@ class Render(object):
    
 class Time(object):
 
-    mdjpp_time_propagate = False # propagate time tags into document
+    mdjpp_time_propagate = True # propagate time tags into document
     mdjpp_time_annotate = False # adds additional raw time tags if possible
 
 class mdJPP(TagsFilters,Render,Time):
