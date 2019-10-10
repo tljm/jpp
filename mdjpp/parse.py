@@ -219,6 +219,11 @@ class JournalParser(object):
                         self.metastable_tag.append(this_tag)
 
     def finalize(self):
+        # when called, open_tags are collection of all tags and can be processed
+        # can we still have some metastable tag?
+        if self.metastable_tag:
+            self.open_tag(self.metastable_tag)
+            self.metastable_tag = None
         for tag in self.open_tags[:0:-1]:
             self.close_tag(tag)
         if self.open_tags:
