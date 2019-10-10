@@ -7,7 +7,9 @@ from mdjpp import tagtag
 
 
 def auto_color(value):
-    return hashlib.md5(value.encode('utf-8')).hexdigest()[:6]
+    hash_str = hashlib.md5(value.encode('utf-8')).hexdigest()[0:7]
+    pair_sort = lambda p: ''.join(sorted(p,reverse=False))
+    return ''.join(map(pair_sort,(hash_str[:2],hash_str[:2:4],hash_str[4:])))
 
 
 class sstr(str):
