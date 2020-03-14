@@ -34,10 +34,12 @@ class Null(object):
 
     @ensure_sstr
     def tag_opener(self, tag):
+        #return f"<OPEN:{tag.value} TIME:{tag.begin}>"
         return self.null
 
     @ensure_sstr
     def tag_closer(self, tag):
+        #return f"<CLOSE:{tag.value} TIME:{tag.end}>"
         return self.null
 
     @ensure_sstr

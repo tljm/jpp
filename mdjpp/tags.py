@@ -117,6 +117,7 @@ class Time(Tag):
         :return str: Gives plain text of this tag.
         """
         return f"{tagtag}{self.value}"
+        #return f"TIME:{self.value}"
 
 
 class Verbatim(Tag):
